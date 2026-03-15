@@ -15,6 +15,9 @@ StringLevel: TypeAlias = Literal['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG'
 NumericLevel: TypeAlias = Literal[15, 14, 13, 12, 11, 10, 9, 0]
 LogLevel: TypeAlias = StringLevel | NumericLevel
 
+# Type for log filter functions
+LogFilter: TypeAlias = Callable[[LogRecord, Handler], bool]
+
 # Level constants
 CRITICAL: Literal[15] = 15
 ERROR: Literal[14] = 14
@@ -169,3 +172,22 @@ class Processor:
     def __init__(self, callback: Callable[[LogRecord], None]) -> None: ...
     def __enter__(self) -> Processor: ...
     def __exit__(self, exc_type: object, exc_value: object, tb: object) -> None: ...
+
+__all__ = [
+    'CRITICAL',
+    'DEBUG',
+    'ERROR',
+    'INFO',
+    'NOTICE',
+    'NOTSET',
+    'TRACE',
+    'WARNING',
+    'StringLevel',
+    'NumericLevel',
+    'LogLevel',
+    'LogFilter',
+    'LogRecord',
+    'Logger',
+    'LoggerGroup',
+    'Processor',
+]

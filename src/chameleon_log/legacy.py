@@ -1,13 +1,10 @@
 import logging
-from typing import Callable, Dict, Optional
+from typing import Dict, Optional
 
 import logbook
 from logbook import LogRecord
 from logbook.compat import LoggingHandler as _LoggingHandler
-from logbook.handlers import Handler
-
-
-type LogFilter = Callable[[LogRecord, Handler], bool]
+from logbook.handlers import LogFilter
 
 
 class StdLoggingHandler(_LoggingHandler):

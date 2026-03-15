@@ -3,10 +3,13 @@ from __future__ import annotations
 import sys
 from http import HTTPMethod
 from pathlib import Path
-from typing import IO, Callable, Literal
+from typing import IO, TYPE_CHECKING
 
-from logbook.base import NOTSET, LogRecord
-from logbook.handlers import Handler, StreamHandler
+from logbook.base import (
+    NOTSET,
+    LogRecord,
+)
+from logbook.handlers import StreamHandler
 from rich._log_render import LogRender
 from rich.console import Console, ConsoleRenderable
 from rich.highlighter import ReprHighlighter
@@ -14,12 +17,11 @@ from rich.text import Text
 from rich.traceback import Traceback
 
 
-type StringLevel = Literal['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG', 'NOTICE', 'TRACE', 'NOTSET']
-type NumericLevel = Literal[15, 14, 13, 12, 11, 10, 9, 0]
-type LogLevel = StringLevel | NumericLevel
+if TYPE_CHECKING:
+    # Import type definitions from stubs for type checking only
+    from logbook.base import LogLevel
+    from logbook.handlers import LogFilter
 
-
-type LogFilter = Callable[[LogRecord, Handler], bool]
 
 # Similar to original logbook DEFAULT_FORMAT_STRING, but without the `{record.time}`,
 # and `{record.level_name}` because they will be rendered at side, by rich's `LogRender`.
@@ -27,6 +29,48 @@ DEFAULT_FORMAT_STRING = '{record.channel}: {record.message}'
 
 
 class RichHandler(StreamHandler):
+    """
+    A Logbook handler that renders colored, formatted log output using Rich.
+
+    This handler extends Logbook's StreamHandler to provide rich terminal output
+    with features like:
+
+    - Colored log levels with consistent 8-character width padding
+    - Syntax highlighting for log messages
+    - Clickable file paths with line numbers
+    - Optional tracebacks with rich formatting
+    - HTTP method keyword highlighting
+
+    The handler automatically detects if it's outputting to a terminal and
+    disables colors/formatting when redirecting to files or non-TTY streams.
+
+    :param level: Log level filter (default: NOTSET)
+    :type level: LogLevel
+    :param filter: Optional log filter function (default: None)
+    :type filter: LogFilter | None
+    :param bubble: Whether to bubble logs to parent handlers (default: False)
+    :type bubble: bool
+    :param stream: Output stream (default: sys.stderr)
+    :type stream: IO[str] | None
+    :param enable_link_path: Enable clickable file paths in terminal (default: True)
+    :type enable_link_path: bool
+    :param force_terminal: Force terminal formatting even for non-TTY streams (default: False)
+    :type force_terminal: bool
+
+    Example usage::
+
+        import logbook
+        from chameleon_log import RichHandler
+
+        logger = logbook.Logger('MyApp')
+        handler = RichHandler()
+
+        with handler:
+            logger.info('Application started')
+            logger.warning('Low disk space')
+            logger.error('Connection failed')
+    """
+
     def __init__(
         self,
         level: LogLevel = NOTSET,
@@ -133,12 +177,12 @@ class RichHandler(StreamHandler):
     def render_message(self, record: LogRecord, message: str) -> ConsoleRenderable:
         """Render message text in to Text.
 
-        Args:
-            record (LogRecord): logbook Record.
-            message (str): String containing log message.
-
-        Returns:
-            ConsoleRenderable: Renderable to display log message.
+        :param record: logbook Record.
+        :type record: LogRecord
+        :param message: String containing log message.
+        :type message: str
+        :return: Renderable to display log message.
+        :rtype: ConsoleRenderable
         """
         use_markup = getattr(record, 'markup', self.use_markup)
         message_text = Text.from_markup(message) if use_markup else Text(message)
@@ -165,24 +209,37 @@ class RichHandler(StreamHandler):
     ) -> ConsoleRenderable:
         """Render log for display.
 
-        Args:
-            record (LogRecord): logbook Record.
-            traceback (Optional[Traceback]): Traceback instance or None for no Traceback.
-            message_renderable (ConsoleRenderable): Renderable (typically Text) containing log message contents.
-
-        Returns:
-            ConsoleRenderable: Renderable to display log.
+        :param record: logbook Record.
+        :type record: LogRecord
+        :param traceback: Traceback instance or None for no Traceback.
+        :type traceback: Traceback | None
+        :param message_renderable: Renderable (typically Text) containing log message contents.
+        :type message_renderable: ConsoleRenderable
+        :return: Renderable to display log.
+        :rtype: ConsoleRenderable
         """
         path = Path(record.filename or '/opt').name
-        level = record.level_name
+        level_text = self.get_level_text(record)
 
         log_renderable = self._log_render(
             self.console,
             [message_renderable] if not traceback else [message_renderable, traceback],
             log_time=record.time,
-            level=level,
+            level=level_text,
             path=path,
             line_no=record.lineno,
             link_path=record.filename if self.enable_link_path else None,
         )
         return log_renderable
+
+    def get_level_text(self, record: LogRecord) -> Text:
+        """Get the level name from the record as a styled Text object.
+
+        :param record: logbook Record.
+        :type record: LogRecord
+        :return: A Text instance containing the level name with appropriate styling.
+        :rtype: Text
+        """
+        level_name = record.level_name
+        level_text = Text.styled(level_name.ljust(8), f'logging.level.{level_name.lower()}')
+        return level_text

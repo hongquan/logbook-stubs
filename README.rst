@@ -2,7 +2,7 @@
 ChameleonLog
 ============
 
-.. image:: https://raw.githubusercontent.com/hongquan/chameleon-log/refs/heads/main/docs/_static/chameleon-freepik.svg
+.. image:: https://quan-images.b-cdn.net/blogs/2026/03/chameleon-freepik.svg
    :alt: ChameleonLog Logo
    :width: 200px
 
@@ -104,6 +104,10 @@ Customizing the handler:
 Example Output
 --------------
 
+.. image:: https://quan-images.b-cdn.net/blogs/2026/03/rich.png
+   :alt: Rich Handler Output
+   :width: 100%
+
 .. code-block:: text
 
     [12:00:00] INFO     MyApp: Application started successfully    cli-app.py:24
@@ -117,13 +121,13 @@ For systemd journal integration (Linux only) via journald, use ``JournaldHandler
 
 **Simple logging output:**
 
-.. image:: https://raw.githubusercontent.com/hongquan/chameleon-log/main/docs/_static/journald-simple.png
+.. image:: https://quan-images.b-cdn.net/blogs/2026/03/journald-simple.png
    :alt: Journald Simple Output
    :width: 100%
 
 **With extra fields for structured filtering:**
 
-.. image:: https://raw.githubusercontent.com/hongquan/chameleon-log/main/docs/_static/journald-extra-fields.png
+.. image:: https://quan-images.b-cdn.net/blogs/2026/03/journald-extra-fields.png
    :alt: Journald Extra Fields Output
    :width: 100%
 

@@ -4,8 +4,10 @@ Journald handler for Logbook.
 This module provides a handler that sends Logbook log records to the systemd
 journal (journald) with rich metadata and structured data support.
 
-Note: This module is only available when the "journald" extra is installed:
-    pip install chameleon_log[journald]
+.. note::
+    This module is only available when the "journald" extra is installed::
+
+        pip install chameleon_log[journald]
 
 If the journald extra is not installed, the JournaldHandler will be available
 but will be a no-op handler that does nothing.
@@ -59,12 +61,16 @@ if _JOURNALD_AVAILABLE:
         journald (assuming the default prefix ``f_``). You can then filter logs
         using journalctl with the uppercase field name.
 
-        Parameters:
-            level: Log level filter (default: 0)
-            filter: Optional log filter function (default: None)
-            bubble: Whether to bubble logs to parent handlers (default: False)
-            syslog_identifier: Optional syslog identifier for the logs (default: None)
-            extra_field_prefix: Prefix for extra fields (default: ``f_``). Will be automatically uppercased.
+        :param level: Log level filter (default: 0)
+        :type level: int | str
+        :param filter: Optional log filter function (default: None)
+        :type filter: LogFilter | None
+        :param bubble: Whether to bubble logs to parent handlers (default: False)
+        :type bubble: bool
+        :param syslog_identifier: Optional syslog identifier for the logs (default: None)
+        :type syslog_identifier: str | None
+        :param extra_field_prefix: Prefix for extra fields (default: ``f_``). Will be automatically uppercased.
+        :type extra_field_prefix: str
         """
 
         def __init__(
@@ -132,7 +138,8 @@ else:
         This handler is available but does nothing when the "journald" extra is not installed.
         This allows code to use JournaldHandler without crashing if the dependency is missing.
 
-        To enable journald logging, install the extra:
+        To enable journald logging, install the extra::
+
             pip install chameleon_log[journald]
         """
 
