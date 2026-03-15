@@ -1,11 +1,7 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
 
-The format is based on [Common Changelog](https://common-changelog.org/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## Unreleased
+## [1.0.0] - 2026-03-15
 
 ### Added
 
@@ -21,7 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated project dependencies in pyproject.toml
 - Enhanced project metadata and documentation
 
+
 ## [0.2.0] - 2020-10-16
+
 - Initial release
 
+
+[1.0.0]: https://github.com/hongquan/chameleon-log/releases/tag/v1.0.0
 [0.2.0]: https://github.com/hongquan/chameleon-log/releases/tag/v0.2.0

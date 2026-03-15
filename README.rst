@@ -24,6 +24,10 @@ Colourful logging handlers for `Logbook`_.
    :target: https://pypi.org/project/chameleon-log/
    :alt: PyPI - License
 
+.. image:: https://common-changelog.org/badge.svg
+   :target: https://common-changelog.org/
+   :alt: Common Changelog
+
 
 ChameleonLog provides colorful, structured logging for Python applications using the `Logbook`_ framework.
 
@@ -106,6 +110,18 @@ JournaldHandler Usage
 ---------------------
 
 For systemd journal integration (Linux only) via journald, use ``JournaldHandler``. Logbook provides two ways to attach extra fields:
+
+**Simple logging output:**
+
+.. image:: https://raw.githubusercontent.com/hongquan/chameleon-log/main/docs/_static/journald-simple.png
+   :alt: Journald Simple Output
+   :width: 100%
+
+**With extra fields for structured filtering:**
+
+.. image:: https://raw.githubusercontent.com/hongquan/chameleon-log/main/docs/_static/journald-extra-fields.png
+   :alt: Journald Extra Fields Output
+   :width: 100%
 
 **Option 1: Use the extra= parameter (simple and direct)**
 
