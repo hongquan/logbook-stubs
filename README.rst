@@ -28,6 +28,10 @@ Colourful logging handlers for `Logbook`_.
    :target: https://common-changelog.org/
    :alt: Common Changelog
 
+.. image:: https://readthedocs.org/projects/chameleon-log/badge/?version=latest
+   :target: https://chameleon-log.readthedocs.io
+   :alt: Documentation Status
+
 
 ChameleonLog provides colorful, structured logging for Python applications using the `Logbook`_ framework.
 
@@ -165,6 +169,11 @@ View logs with journalctl:
     journalctl -t my-app
     journalctl -t my-app F_USER_ID=123
     journalctl -t my-app -o json
+
+Documentation
+-------------
+
+Full documentation is available at: https://chameleon-log.readthedocs.io
 
 License
 -------

@@ -34,6 +34,8 @@ journald = [
 
 [project.urls]
 Repository = "https://github.com/hongquan/chameleon-log.git"
+Documentation = "https://chameleon-log.readthedocs.io"
+Changelog = "https://github.com/hongquan/chameleon-log/blob/main/CHANGELOG.md"
 
 [build-system]
 requires = ["hatchling"]
