@@ -2,7 +2,7 @@
 ChameleonLog
 ============
 
-.. image:: docs/_static/chameleon-freepik.svg
+.. image:: https://raw.githubusercontent.com/hongquan/chameleon-log/refs/heads/main/docs/_static/chameleon-freepik.svg
    :alt: ChameleonLog Logo
    :width: 200px
 
@@ -154,6 +154,8 @@ License
 -------
 
 This project is licensed under the Apache License 2.0 - see the `LICENSE`_ file for details.
+
+Logo by `Freepik <https://www.freepik.com>`_.
 
 .. _logbook: https://pypi.org/project/Logbook/
 .. _Rich: https://pypi.org/project/rich/
