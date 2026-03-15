@@ -2,6 +2,10 @@
 ChameleonLog
 ============
 
+.. image:: docs/_static/chameleon-freepik.svg
+   :alt: ChameleonLog Logo
+   :width: 200px
+
 Colourful logging handlers for `Logbook`_.
 
 .. image:: https://madewithlove.vercel.app/vn?heart=true&colorA=%23ffcd00&colorB=%23da251d
@@ -67,7 +71,7 @@ Basic usage:
 .. code-block:: python
 
     import logbook
-    
+
     from chameleon_log import RichHandler
 
     # Create a RichHandler with default settings
@@ -133,7 +137,7 @@ For systemd journal integration (Linux only) via journald, use ``JournaldHandler
 
     with handler:
         logger = logbook.Logger('MyApp')
-        
+
         with Processor(inject_request_context):
             logger.info('User logged in')  # Fields injected automatically
             logger.info('Data processed')
