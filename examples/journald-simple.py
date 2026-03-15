@@ -5,7 +5,7 @@ import getpass
 import platform
 
 import logbook
-from logbook import Logger, Processor
+from logbook import Processor
 
 from chameleon_log.journald import JournaldHandler
 
@@ -37,10 +37,7 @@ def main() -> None:
         logger.info(
             'Current Linux user: {}',
             user,
-            extra={
-                'linux': platform.freedesktop_os_release(),
-                'platform': platform.platform()
-            }
+            extra={'linux': platform.freedesktop_os_release(), 'platform': platform.platform()},
         )
 
         # Example 2: Use a Processor to inject context into multiple log calls

@@ -1,4 +1,4 @@
-# AGENTS.md
+# agents.md
 
 Guide for AI agents working in this codebase.
 
@@ -33,6 +33,16 @@ uv add --group dev <package>
 uv build
 ```
 
+### Continuous Integration
+
+GitHub Actions workflow (`.github/workflows/ci.yml`) runs on every push/PR to main branch:
+
+- **lint**: Runs ruff check and ruff format --check
+- **test**: Runs pytest test suite across Python 3.12, 3.13, and 3.14 using matrix strategy
+- **docs**: Builds Sphinx documentation using sphinx-build directly to ensure no documentation errors
+
+The workflow requires systemd dependencies for building the journald extra.
+
 ### Documentation
 
 Use Sphinx to build documentation.
@@ -41,8 +51,11 @@ Use Sphinx to build documentation.
 # Install dependencies including all optional extras (required for building docs)
 uv sync --group docs --all-extras
 
-# Build HTML documentation
+# Build HTML documentation (using make)
 cd docs && make html
+
+# Or build directly with sphinx-build (as used in CI)
+uv run sphinx-build -W --keep-going -b html docs docs/_build/html
 
 # Auto-rebuild and serve documentation
 cd docs && make livehtml

@@ -1,4 +1,4 @@
-'''
+"""
 Journald handler for Logbook.
 
 This module provides a handler that sends Logbook log records to the systemd
@@ -9,7 +9,7 @@ Note: This module is only available when the "journald" extra is installed:
 
 If the journald extra is not installed, the JournaldHandler will be available
 but will be a no-op handler that does nothing.
-'''
+"""
 
 from __future__ import annotations
 
@@ -47,35 +47,34 @@ if _JOURNALD_AVAILABLE:
     def send_to_standard_journal(message: str, priority: int, **extra_fields: object) -> None:
         journal.send(message, PRIORITY=priority, **extra_fields)
 
-
     class JournaldHandler(Handler):
-        '''
+        """
         Logbook handler to write log to journald.
-        
+
         This handler sends log records to the systemd journal (journald) with rich
         metadata. It includes standard fields like CODE_FILE, CODE_LINE, etc., as
         well as any extra fields from the log record.
-        
+
         Extra field names are automatically uppercased by the handler. For example,
         if you add extra data with key ``farm``, it will be stored as ``F_FARM`` in
-        journald (assuming the default prefix ``F_``). You can then filter logs
+        journald (assuming the default prefix ``f_``). You can then filter logs
         using journalctl with the uppercase field name.
-        
+
         Parameters:
             level: Log level filter (default: 0)
             filter: Optional log filter function (default: None)
             bubble: Whether to bubble logs to parent handlers (default: False)
             syslog_identifier: Optional syslog identifier for the logs (default: None)
-            extra_field_prefix: Prefix for extra fields (default: ``F_``). Must be uppercase.
-        '''
-        
+            extra_field_prefix: Prefix for extra fields (default: ``f_``). Will be automatically uppercased.
+        """
+
         def __init__(
             self,
             level: int | str = 0,
             filter: LogFilter | None = None,
             bubble: bool = False,
             syslog_identifier: str | None = None,
-            extra_field_prefix: str = 'F_',
+            extra_field_prefix: str = 'f_',
         ) -> None:
             # Initialize Handler base attributes directly since base Handler.__init__ doesn't accept these params
             self.level = level
@@ -87,10 +86,10 @@ if _JOURNALD_AVAILABLE:
         def emit(self, record: LogRecord) -> None:
             # Get the message
             message = record.message
-            
+
             # Convert level name to journald priority
             priority = LEVEL_TO_PRIORITY.get(record.level_name, journal.LOG_INFO)
-            
+
             # Prepare extra fields for journald
             extra_fields = {
                 'LOGGER': record.channel,
@@ -101,49 +100,52 @@ if _JOURNALD_AVAILABLE:
                 'PROCESS_NAME': record.process_name or 'unknown',
                 'MODULE': record.module or 'unknown',
                 'LEVEL': record.level_name,
-                'TIMESTAMP': record.time.replace(tzinfo=datetime.timezone.utc) if record.time else datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
+                'TIMESTAMP': record.time.replace(tzinfo=datetime.timezone.utc)
+                if record.time
+                else datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             }
-            
+
             # Add exception information if present
             if record.exc_info:
                 extra_fields['EXCEPTION_TEXT'] = record.formatted_exception or 'Unknown exception'
                 extra_fields['EXCEPTION_NAME'] = record.exception_name or 'unknown'
                 extra_fields['EXCEPTION_MESSAGE'] = record.exception_message or 'unknown'
-            
+
             # Add extra fields from log record if any
             # record.extra is a defaultdict, so we need to check if it has actual values
             if record.extra and len(record.extra) > 0:
                 for key, value in record.extra.items():
                     # Prefix extra fields to avoid conflicts with standard fields
-                    extra_fields[f'{self.extra_field_prefix}{key.upper()}'] = value
-            
+                    # The whole field name will be automatically uppercased
+                    extra_fields[f'{self.extra_field_prefix}{key}'.upper()] = value
+
             # Add syslog identifier if provided
             if self.syslog_identifier:
                 extra_fields['SYSLOG_IDENTIFIER'] = self.syslog_identifier
-            
+
             # Send to journald
             send_to_standard_journal(message, priority, **extra_fields)
 
 else:
     # No-op handler when systemd-python is not available
     class JournaldHandler(Handler):
-        '''
+        """
         No-op JournaldHandler when systemd-python is not installed.
-        
+
         This handler is available but does nothing when the "journald" extra is not installed.
         This allows code to use JournaldHandler without crashing if the dependency is missing.
-        
+
         To enable journald logging, install the extra:
             pip install chameleon_log[journald]
-        '''
-        
+        """
+
         def __init__(
             self,
             level: int | str = 0,
             filter: LogFilter | None = None,
             bubble: bool = False,
             syslog_identifier: str | None = None,
-            extra_field_prefix: str = 'F_',
+            extra_field_prefix: str = 'f_',
         ) -> None:
             # Initialize attributes but don't use them
             self.level = level
@@ -151,7 +153,7 @@ else:
             self.bubble = bubble
             self.syslog_identifier = syslog_identifier
             self.extra_field_prefix = extra_field_prefix
-        
+
         def emit(self, record: LogRecord) -> None:
             # No-op: do nothing when systemd-python is not available
             pass

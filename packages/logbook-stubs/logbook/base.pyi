@@ -27,7 +27,6 @@ NOTSET: Literal[0] = 0
 
 _ExcInfo = tuple[type[BaseException], BaseException, TracebackType] | tuple[None, None, None]
 
-
 class LogRecord:
     channel: str
     msg: str
@@ -58,7 +57,6 @@ class LogRecord:
         dispatcher: Incomplete = ...,
         frame_correction: int = ...,
     ) -> None: ...
-
     @property
     def message(self) -> str: ...
     @property
@@ -91,7 +89,6 @@ class LogRecord:
     def exception_message(self) -> str | None: ...
     @property
     def dispatcher(self) -> Incomplete: ...
-
     def heavy_init(self) -> None: ...
     def pull_information(self) -> None: ...
     def close(self) -> None: ...
@@ -99,7 +96,6 @@ class LogRecord:
     @classmethod
     def from_dict(cls, d: dict[str, Incomplete]) -> LogRecord: ...
     def update_from_dict(self, d: dict[str, Incomplete]) -> LogRecord: ...
-
 
 class RecordDispatcher:
     """A record dispatcher is the internal base class that implements
@@ -127,7 +123,6 @@ class RecordDispatcher:
     ) -> None: ...
     def call_handlers(self, record: LogRecord) -> None: ...
 
-
 class LoggerMixin:
     """This mixin class defines and implements the "usual" logger
     interface (i.e. the descriptive logging functions).
@@ -145,12 +140,10 @@ class LoggerMixin:
     def exception(self, *args: Incomplete, **kwargs: Incomplete) -> None: ...
     def log(self, level: int, *args: Incomplete, **kwargs: Incomplete) -> None: ...
 
-
 class Logger(RecordDispatcher, LoggerMixin):
     """Instances of the Logger class represent a single logging channel."""
 
     def __init__(self, name: str | None = None, level: int = ...) -> None: ...
-
 
 class LoggerGroup:
     """A LoggerGroup represents a group of loggers."""

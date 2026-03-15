@@ -22,10 +22,9 @@ type LogLevel = StringLevel | NumericLevel
 type LogFilter = Callable[[LogRecord, Handler], bool]
 
 # Similar to original logbook DEFAULT_FORMAT_STRING, but without the `{record.time}`,
-# and `{record.level_name}` because they will be rendered at side, by rich's `LogRender`. 
-DEFAULT_FORMAT_STRING = (
-    "{record.channel}: {record.message}"
-)
+# and `{record.level_name}` because they will be rendered at side, by rich's `LogRender`.
+DEFAULT_FORMAT_STRING = '{record.channel}: {record.message}'
+
 
 class RichHandler(StreamHandler):
     def __init__(
@@ -120,9 +119,7 @@ class RichHandler(StreamHandler):
             )
             message = record.message
         message_renderable = self.render_message(record, message)
-        log_renderable = self.render(
-            record=record, traceback=traceback, message_renderable=message_renderable
-        )
+        log_renderable = self.render(record=record, traceback=traceback, message_renderable=message_renderable)
         self.lock.acquire()
         try:
             self.ensure_stream_is_open()
