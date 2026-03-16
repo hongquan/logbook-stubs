@@ -36,7 +36,7 @@ Colourful logging handlers for `Logbook`_.
 ChameleonLog provides colorful, structured logging for Python applications using the `Logbook`_ framework.
 
 - ``RichHandler``: Beautiful console output with syntax highlighting and tracebacks using the `Rich`_ library.
-- ``JournaldHandler``: Structured logging to systemd journal with automatic level-based coloring and filtering.
+- ``JournaldHandler``: Structured logging to `systemd`_ `journald`_ with automatic level-based coloring and filtering.
 
 
 Installation
@@ -57,7 +57,7 @@ Or using uv:
 Optional Dependencies
 ~~~~~~~~~~~~~~~~~~~~~
 
-To use the ``JournaldHandler`` for sending logs to systemd journal (Linux only):
+To use the ``JournaldHandler`` for sending logs to systemd `journald`_ (Linux only):
 
 .. code-block:: bash
 
