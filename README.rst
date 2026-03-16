@@ -35,8 +35,8 @@ Colourful logging handlers for `Logbook`_.
 
 ChameleonLog provides colorful, structured logging for Python applications using the `Logbook`_ framework.
 
-- ``RichHandler``: Beautiful console output with syntax highlighting and tracebacks using the `Rich`_ library.
-- ``JournaldHandler``: Structured logging to `systemd`_ `journald`_ with automatic level-based coloring and filtering.
+- ``RichHandler``: Beautiful console output with syntax highlighting and tracebacks using the `Rich`_ library (recommended for **development**).
+- ``JournaldHandler``: Structured logging to `systemd`_ `journald`_ with automatic level-based coloring and filtering (recommended for **production/Live systems** on Linux).
 
 
 Installation
@@ -69,12 +69,15 @@ Or using uv:
 
     uv add chameleon_log --extra journald
 
-This requires Linux with systemd and installs the `systemd-python`_ package.
+This will also install the `systemd-python`_ package, requiring systemd-based Linux distros.
 
 Usage
 -----
 
-Basic usage:
+RichHandler (Development)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For development and debugging in terminal environments, use ``RichHandler`` for colorful, formatted console output:
 
 .. code-block:: python
 
@@ -86,20 +89,13 @@ Basic usage:
     handler = RichHandler()
 
     with handler:
-        logger = logbook.Logger('MyApp')
+        logger = logbook.Logger(__name__)
         logger.info('Application started successfully')
         logger.warning('This is a warning message')
         logger.error('An error occurred')
 
-Customizing the handler:
+This will produce beautiful console output with syntax highlighting and formatted tracebacks.
 
-.. code-block:: python
-
-    # Create a RichHandler with custom settings
-    handler = RichHandler(
-        level=logbook.DEBUG,
-        # Additional Rich-specific options can be added here
-    )
 
 Example Output
 --------------
@@ -109,10 +105,29 @@ Example Output
    :width: 100%
 
 
-JournaldHandler Usage
----------------------
+JournaldHandler Usage (Production/Live Systems)
+------------------------------------------------
 
-For systemd journal integration (Linux only) via journald, use ``JournaldHandler``. Logbook provides two ways to attach extra fields:
+For applications deployed on Linux servers or in production environments, use ``JournaldHandler`` to write logs directly to systemd journald. This provides more efficient troubleshooting capabilities compared to file-based logging or stdout/stderr capture.
+
+.. note::
+
+    Writing directly to journald is not the same as writing logs to *stdout*/*stderr* and letting journald collect them. The latter loses important metadata (timestamps, severity levels, extra fields) needed for effective log filtering and analysis.
+
+Basic usage:
+
+.. code-block:: python
+
+    import logbook
+    from chameleon_log.journald import JournaldHandler
+
+    handler = JournaldHandler(syslog_identifier='my-app')
+
+    with handler:
+        logger = logbook.Logger(__name__)
+        logger.info('Application started successfully')
+        logger.warning('This is a warning message')
+        logger.error('An error occurred')
 
 Simple logging output:
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -124,11 +139,13 @@ Simple logging output:
 With extra fields for structured filtering:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Logbook provides two ways to attach extra fields:
+
 .. image:: https://quan-images.b-cdn.net/blogs/2026/03/journald-extra-fields.png
    :alt: Journald Extra Fields Output
    :width: 100%
 
-Option 1: Use the extra= parameter (simple and direct)
+Option 1: Use the ``extra=`` parameter (simple and direct)
 
 .. code-block:: python
 
@@ -138,10 +155,10 @@ Option 1: Use the extra= parameter (simple and direct)
     handler = JournaldHandler(syslog_identifier='my-app')
 
     with handler:
-        logger = logbook.Logger('MyApp')
+        logger = logbook.Logger(__name__)
         logger.info('User logged in', extra={'user_id': 123, 'action': 'login'})
 
-Option 2: Use a Processor (for reusable context)
+Option 2: Use a ``Processor`` (for reusable context)
 
 .. code-block:: python
 
@@ -149,6 +166,8 @@ Option 2: Use a Processor (for reusable context)
     from logbook import Logger, Processor
     from chameleon_log.journald import JournaldHandler
 
+    handler = JournaldHandler()
+	# or
     handler = JournaldHandler(syslog_identifier='my-app')
 
     # Use a Processor to inject context into multiple log records
@@ -157,19 +176,22 @@ Option 2: Use a Processor (for reusable context)
         record.extra['request_id'] = 'abc-456'
 
     with handler:
-        logger = logbook.Logger('MyApp')
+        logger = logbook.Logger(__name__)
 
         with Processor(inject_request_context):
             logger.info('User logged in')  # Fields injected automatically
             logger.info('Data processed')
 
-View logs with journalctl:
+View logs with ``journalctl``:
 
 .. code-block:: bash
 
-    journalctl -t my-app
+    journalctl -fu my-service
     journalctl -t my-app F_USER_ID=123
-    journalctl -t my-app -o json
+    journalctl -eu my-service -o json
+
+Normally, you view your app logs with ``-u`` (*unit*), the ``syslog_identifier`` is helpful if your app
+scatters across many systemd units, you then can use ``journalctl -t`` to view all.
 
 Documentation
 -------------
@@ -186,6 +208,6 @@ Logo by `Freepik <https://www.freepik.com>`_.
 .. _logbook: https://pypi.org/project/Logbook/
 .. _Rich: https://pypi.org/project/rich/
 .. _systemd: https://systemd.io/
-.. _journald: https://systemd.io/
+.. _journald: https://wiki.archlinux.org/title/Systemd/Journal
 .. _systemd-python: https://pypi.org/project/systemd-python/
 .. _LICENSE: https://github.com/hongquan/chameleon-log/blob/master/LICENSE

@@ -31,7 +31,7 @@ def main() -> None:
         handler = RichHandler()
 
     with handler:
-        logger = Logger('MyApp')
+        logger = Logger(__name__)
 
         logger.info('Application starting...')
         logger.info(f'Handler selected: {handler.__class__.__name__}')

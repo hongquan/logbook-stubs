@@ -20,7 +20,7 @@ def main() -> None:
 
     with handler:
         # Get a logger
-        logger = logbook.Logger('MyApp')
+        logger = logbook.Logger(__name__)
 
         # Log messages at different levels
         logger.debug('This is a debug message')

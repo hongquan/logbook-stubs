@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [1.1.1] - 2026-03-16
+
+### Fixed
+
+- Restructure documentation.
+
+
 ## [1.1.0] - 2026-03-15
 
 ### Added
@@ -32,6 +39,7 @@
 - Legacy release (project was rewritten for v1.0.0)
 
 
+[1.1.1]: https://github.com/hongquan/chameleon-log/releases/tag/v1.1.1
 [1.1.0]: https://github.com/hongquan/chameleon-log/releases/tag/v1.1.0
 [1.0.0]: https://github.com/hongquan/chameleon-log/releases/tag/v1.0.0
 [0.2.0]: https://github.com/hongquan/chameleon-log/releases/tag/v0.2.0
