@@ -42,13 +42,13 @@ ChameleonLog provides colorful, structured logging for Python applications using
 Installation
 ------------
 
-Install ChameleonLog using pip:
+Install ChameleonLog using ``pip``:
 
 .. code-block:: bash
 
     pip install chameleon_log
 
-Or using uv:
+Or using ``uv``:
 
 .. code-block:: bash
 
@@ -69,7 +69,7 @@ Or using uv:
 
     uv add chameleon_log --extra journald
 
-This requires Linux with systemd and installs the ``systemd-python`` package.
+This requires Linux with systemd and installs the `systemd-python`_ package.
 
 Usage
 -----
@@ -187,4 +187,5 @@ Logo by `Freepik <https://www.freepik.com>`_.
 .. _Rich: https://pypi.org/project/rich/
 .. _systemd: https://systemd.io/
 .. _journald: https://systemd.io/
+.. _systemd-python: https://pypi.org/project/systemd-python/
 .. _LICENSE: https://github.com/hongquan/chameleon-log/blob/master/LICENSE
