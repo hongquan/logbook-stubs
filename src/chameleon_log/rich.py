@@ -23,11 +23,6 @@ if TYPE_CHECKING:
     from logbook.handlers import LogFilter
 
 
-# Similar to original logbook DEFAULT_FORMAT_STRING, but without the `{record.time}`,
-# and `{record.level_name}` because they will be rendered at side, by rich's `LogRender`.
-DEFAULT_FORMAT_STRING = '{record.channel}: {record.message}'
-
-
 class RichHandler(StreamHandler):
     """
     A Logbook handler that renders colored, formatted log output using Rich.
@@ -84,7 +79,6 @@ class RichHandler(StreamHandler):
         super().__init__(
             stream=stream if stream is not None else sys.stderr,
             level=level,
-            format_string=DEFAULT_FORMAT_STRING,
             filter=filter,
             bubble=bubble,
         )
@@ -94,6 +88,8 @@ class RichHandler(StreamHandler):
         self.highlighter = ReprHighlighter()
         self._log_render = LogRender(
             show_time=True,
+            # For development, it is not practical to show date part.
+            time_format='[%X]',
             show_level=True,
             show_path=True,
             omit_repeated_times=True,
@@ -121,6 +117,10 @@ class RichHandler(StreamHandler):
 
         isatty = getattr(self.stream, 'isatty', None)
         return callable(isatty) and isatty()
+
+    def format(self, record: LogRecord) -> str:
+        channel_name = record.channel.rsplit('.', 1)[-1] if record.channel else ''
+        return f'{channel_name}: {record.message}'
 
     @property
     def console(self) -> Console:
@@ -161,7 +161,6 @@ class RichHandler(StreamHandler):
                 suppress=self.tracebacks_suppress,
                 max_frames=self.tracebacks_max_frames,
             )
-            message = record.message
         message_renderable = self.render_message(record, message)
         log_renderable = self.render(record=record, traceback=traceback, message_renderable=message_renderable)
         self.lock.acquire()

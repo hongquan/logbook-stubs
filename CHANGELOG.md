@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [1.2.0] - 2026-03-26
+
+### Changed
+
+- Do not show "date" part in Rich handler, to save screen space.
+- Show the last module from "record.channel" instead of the fully-qualified one, to save screen space.
+
 ## [1.1.3] - 2026-03-25
 
 ### Fixed
@@ -53,6 +60,7 @@
 - Legacy release (project was rewritten for v1.0.0)
 
 
+[1.2.0]: https://github.com/hongquan/chameleon-log/releases/tag/v1.2.0
 [1.1.3]: https://github.com/hongquan/chameleon-log/releases/tag/v1.1.3
 [1.1.2]: https://github.com/hongquan/chameleon-log/releases/tag/v1.1.2
 [1.1.1]: https://github.com/hongquan/chameleon-log/releases/tag/v1.1.1

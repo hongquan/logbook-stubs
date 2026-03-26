@@ -112,6 +112,7 @@ venv.bak/
 
 .vscode
 .helix
+.crush
 
 # Spyder project settings
 .spyderproject

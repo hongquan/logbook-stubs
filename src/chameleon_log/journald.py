@@ -97,7 +97,7 @@ if _JOURNALD_AVAILABLE:
 
             # Prepare extra fields for journald
             extra_fields = {
-                'LOGGER': record.channel,
+                'LOGGER': record.channel.rsplit('.', 1)[-1] if record.channel else '',
                 'CODE_FILE': record.filename or 'example.py',
                 'CODE_LINE': record.lineno or 0,
                 'CODE_FUNC': record.func_name or 'main',
