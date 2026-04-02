@@ -46,7 +46,6 @@ test = [
     "logbook-stubs",
     "pytest>=9.0.2",
     "pytest-mock",
-    "pyrefly>=0.56.0",
 ]
 lint = [
     "ruff>=0.15.6",
