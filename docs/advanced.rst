@@ -18,11 +18,7 @@ The :py:class:`~chameleon_log.journald.JournaldHandler` is only available when t
 
     The ``journald`` extra requires Linux with systemd and installs the ``systemd-python`` package.
 
-=======
-=======
 🐧 JournaldHandler Advanced Features
-====================================
-========================================================================
 ====================================
 
 For applications deployed on Linux servers, writing logs directly to systemd `journald`_ (rather than files or *stdout*/*stderr*) provides more efficient troubleshooting with filterable metadata.

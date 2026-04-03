@@ -43,11 +43,7 @@ For a more complete example showing all log levels and features, see ``examples/
 .. literalinclude:: ../examples/cli-app.py
    :language: python
 
-=======
-=======
 🐧 JournaldHandler
-===================
-======================================================
 ===================
 
 .. note::
