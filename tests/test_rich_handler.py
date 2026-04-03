@@ -2,7 +2,7 @@ from io import StringIO
 
 import logbook
 
-from chameleon_log import RichHandler, RichRendering
+from chameleon_log import RichHandler
 
 
 class TTYStringIO(StringIO):
@@ -12,7 +12,7 @@ class TTYStringIO(StringIO):
 
 def test_rich_handler(logger: logbook.Logger) -> None:
     stream = StringIO()
-    handler = RichHandler(stream=stream, rich_rendering=RichRendering.ON)
+    handler = RichHandler(stream=stream, rich_rendering=True)
     with handler:
         logger.error('An error')
         logger.warning('A warning')
@@ -34,7 +34,7 @@ def test_rich_handler(logger: logbook.Logger) -> None:
 def test_rich_handler_exception(logger: logbook.Logger) -> None:
     """Test that logger.exception captures and formats exceptions in Rich style."""
     stream = StringIO()
-    handler = RichHandler(stream=stream, rich_rendering=RichRendering.ON)
+    handler = RichHandler(stream=stream, rich_rendering=True)
     with handler:
         handler.rich_tracebacks = True
         try:
@@ -54,7 +54,7 @@ def test_rich_handler_exception(logger: logbook.Logger) -> None:
 def test_rich_handler_dict_highlighting(logger: logbook.Logger) -> None:
     """Test that dictionaries are highlighted by Rich when logged."""
     stream = StringIO()
-    handler = RichHandler(stream=stream, rich_rendering=RichRendering.ON)
+    handler = RichHandler(stream=stream, rich_rendering=True)
     with handler:
         logger.info('Dict log: {}', {'a': 1, 'b': 'A string'})
         output = stream.getvalue()
@@ -88,9 +88,9 @@ def test_rich_handler_disables_highlighting_for_non_tty_stream(logger: logbook.L
 
 
 def test_rich_handler_off_disables_rich_formatting(logger: logbook.Logger) -> None:
-    """Test that rich_rendering='off' disables Rich formatting even for TTY streams."""
+    """Test that rich_rendering=False disables Rich formatting even for TTY streams."""
     stream = TTYStringIO()
-    handler = RichHandler(stream=stream, rich_rendering=RichRendering.OFF)
+    handler = RichHandler(stream=stream, rich_rendering=False)
 
     with handler:
         logger.warning('Plain output: {}', {'a': 1})
@@ -104,9 +104,9 @@ def test_rich_handler_off_disables_rich_formatting(logger: logbook.Logger) -> No
 
 
 def test_rich_handler_on_enables_rich_formatting_for_non_tty(logger: logbook.Logger) -> None:
-    """Test that rich_rendering='on' enables Rich formatting even for non-TTY streams."""
+    """Test that rich_rendering=True enables Rich formatting even for non-TTY streams."""
     stream = StringIO()
-    handler = RichHandler(stream=stream, rich_rendering=RichRendering.ON)
+    handler = RichHandler(stream=stream, rich_rendering=True)
 
     with handler:
         logger.warning('Forced output: {}', {'a': 1})

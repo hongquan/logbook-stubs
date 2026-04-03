@@ -90,7 +90,7 @@ The ``RichHandler`` can be customized for different use cases:
     handler = RichHandler(
         level=logbook.DEBUG,           # Set minimum log level
         enable_link_path=True,         # Enable clickable file paths in terminals
-        rich_rendering=RichRendering.ON  # Always use Rich colorful rendering
+        rich_rendering=True  # Always use Rich colorful rendering
     )
 
     with handler:
@@ -102,8 +102,8 @@ The handler supports all `Logbook <https://pypi.org/project/Logbook/>`_ log leve
 
 The ``rich_rendering`` parameter controls Rich formatting:
 
-- ``RichRendering.ON``: Always use Rich colorful rendering
-- ``RichRendering.OFF``: Disable Rich formatting, render plain output
+- ``True``: Always use Rich colorful rendering
+- ``False``: Disable Rich formatting, render plain output
 - ``None`` (default): Auto-detect based on ``isatty()``
 
 🤖 Automatic Handler Selection

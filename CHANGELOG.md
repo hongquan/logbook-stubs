@@ -1,10 +1,18 @@
 # Changelog
 
+## [1.4.0] - 2026-04-03
+
+### Changed
+
+- Drop `RichRendering` enum, use `bool` instead.
+
+
 ## [1.3.0] - 2026-04-02
 
 ### Added
 
 -  Add option to turn off Rich rendering.
+
 
 ## [1.2.0] - 2026-03-26
 
@@ -65,6 +73,7 @@
 - Legacy release (project was rewritten for v1.0.0)
 
 
+[1.4.0]: https://github.com/hongquan/chameleon-log/releases/tag/v1.4.0
 [1.3.0]: https://github.com/hongquan/chameleon-log/releases/tag/v1.3.0
 [1.2.0]: https://github.com/hongquan/chameleon-log/releases/tag/v1.2.0
 [1.1.3]: https://github.com/hongquan/chameleon-log/releases/tag/v1.1.3

@@ -95,8 +95,8 @@ For development and debugging in terminal environments, use ``RichHandler`` for 
 
 The ``rich_rendering`` parameter controls Rich formatting:
 
-- ``RichRendering.ON``: Always use Rich colorful rendering
-- ``RichRendering.OFF``: Disable Rich formatting, render plain output
+- ``True``: Always use Rich colorful rendering
+- ``False``: Disable Rich formatting, render plain output
 - ``None`` (default): Auto-detect based on ``isatty()``
 
 
