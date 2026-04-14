@@ -1,5 +1,6 @@
+from collections.abc import Callable
 from types import TracebackType
-from typing import IO, TYPE_CHECKING, Callable, Literal, Self
+from typing import IO, TYPE_CHECKING, Literal, Self
 
 if TYPE_CHECKING:
     from threading import RLock
@@ -7,6 +8,7 @@ if TYPE_CHECKING:
     from logbook.base import LogLevel, LogRecord
 
 from _typeshed import Incomplete
+
 from logbook.base import LogRecord
 
 class Handler:
@@ -17,7 +19,12 @@ class Handler:
     bubble: bool
     stack_manager: Incomplete
 
-    def __init__(self, level: int | str = ..., filter: LogFilter | None = ..., bubble: bool = False) -> None: ...
+    def __init__(
+        self,
+        level: int | str = ...,
+        filter: LogFilter | None = ...,
+        bubble: bool = False,
+    ) -> None: ...
     @property
     def level_name(self) -> str: ...
     def format(self, record: LogRecord) -> str: ...
@@ -27,7 +34,9 @@ class Handler:
     def emit_batch(self, records: list[LogRecord], reason: str) -> None: ...
     def close(self) -> None: ...
     def handle_error(
-        self, record: LogRecord, exc_info: tuple[type[BaseException], BaseException, TracebackType]
+        self,
+        record: LogRecord,
+        exc_info: tuple[type[BaseException], BaseException, TracebackType],
     ) -> None: ...
     def push_application(self) -> None: ...
     def pop_application(self) -> None: ...
@@ -35,7 +44,10 @@ class Handler:
     def pop_context(self) -> None: ...
     def __enter__(self) -> Self: ...
     def __exit__(
-        self, exc_type: type[BaseException] | None, exc_value: BaseException | None, traceback: TracebackType | None
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
     ) -> None: ...
 
 class Formatter:
@@ -52,7 +64,7 @@ class StreamHandler(Handler, StringFormatterHandlerMixin):
         level: int | str = 0,
         format_string: str = '',
         encoding: str | None = None,
-        filter: 'LogFilter | None' = None,
+        filter: LogFilter | None = None,
         bubble: bool = False,
     ) -> None: ...
     def ensure_stream_is_open(self) -> None: ...
@@ -65,7 +77,11 @@ type LogFilter = Callable[[LogRecord, Handler], bool]
 
 class StderrHandler(StreamHandler):
     def __init__(
-        self, level: int | str = 0, format_string: str = '', filter: LogFilter | None = None, bubble: bool = False
+        self,
+        level: int | str = 0,
+        format_string: str = '',
+        filter: LogFilter | None = None,
+        bubble: bool = False,
     ) -> None: ...
 
 __all__ = [

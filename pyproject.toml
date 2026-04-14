@@ -22,7 +22,7 @@ classifiers = [
 ]
 
 [project.urls]
-Repository = "https://github.com/hongquan/chameleon-log.git"
+Repository = "https://github.com/hongquan/logbook-stubs.git"
 
 [build-system]
 requires = ["hatchling"]
@@ -30,3 +30,21 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/logbook"]
+
+[dependency-groups]
+docs = [
+    "sphinx>=9.1.0",
+]
+lint = [
+    "ruff>=0.15.10",
+]
+
+[tool.ruff.lint]
+select = ["UP", "I"]
+
+[tool.ruff.lint.isort]
+force-single-line = false
+lines-after-imports = 2
+
+[tool.ruff.format]
+quote-style = "single"

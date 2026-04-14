@@ -1,22 +1,25 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from collections.abc import Callable
 from datetime import datetime
 from types import FrameType, TracebackType
-from typing import TYPE_CHECKING, Callable, Literal, Self, TypeAlias
+from typing import TYPE_CHECKING, Literal, Self, TypeAlias
 
 if TYPE_CHECKING:
     from logbook.handlers import Handler
 
 from _typeshed import Incomplete
 
-StringLevel: TypeAlias = Literal['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG', 'NOTICE', 'TRACE', 'NOTSET']
+type StringLevel = Literal[
+    'CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG', 'NOTICE', 'TRACE', 'NOTSET'
+]
 # Need to keep in sync with the constansts from logbook.base
-NumericLevel: TypeAlias = Literal[15, 14, 13, 12, 11, 10, 9, 0]
-LogLevel: TypeAlias = StringLevel | NumericLevel
+type NumericLevel = Literal[15, 14, 13, 12, 11, 10, 9, 0]
+type LogLevel = StringLevel | NumericLevel
 
 # Type for log filter functions
-LogFilter: TypeAlias = Callable[[LogRecord, Handler], bool]
+type LogFilter = Callable[[LogRecord, Handler], bool]
 
 # Level constants
 CRITICAL: Literal[15] = 15
@@ -28,7 +31,9 @@ NOTICE: Literal[10] = 10
 TRACE: Literal[9] = 9
 NOTSET: Literal[0] = 0
 
-_ExcInfo = tuple[type[BaseException], BaseException, TracebackType] | tuple[None, None, None]
+_ExcInfo = (
+    tuple[type[BaseException], BaseException, TracebackType] | tuple[None, None, None]
+)
 
 class LogRecord:
     channel: str
@@ -107,7 +112,7 @@ class RecordDispatcher:
 
     suppress_dispatcher: bool
     name: str | None
-    handlers: list['Handler']
+    handlers: list[Handler]
     group: LoggerGroup | None
     level: int
     disabled: bool
