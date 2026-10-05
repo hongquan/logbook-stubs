@@ -41,3 +41,10 @@ def emit(record: LogRecord) -> None: ...
 ## Compatibility
 
 Tested with Logbook >= 1.9.0. It does not cover all classes in Logbook yet.
+
+These stubs are validated against [mypy](https://www.mypy-lang.org/),
+[pyrefly](https://pyrefly.org/), and [zuban](https://zubanls.com/).
+
+Deprecated names are intentionally not supported in the stubs. Use the
+non-deprecated equivalents instead (for example, `logbook.handlers.FingersCrossedHandler`
+rather than `logbook.more.FingersCrossedHandler`).
