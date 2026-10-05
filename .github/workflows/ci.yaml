@@ -33,10 +33,14 @@ jobs:
         uses: actions/setup-python@v7.0.0
         with:
           python-version: "3.14"
-      - name: Install zuban
-        run: uv tool install zuban
+      - name: Install dependencies
+        run: uv sync --group dev
+      - name: Run mypy
+        run: uv run mypy src/logbook
+      - name: Run pyrefly
+        run: uv run pyrefly check
       - name: Run zuban
-        run: uvx zuban check
+        run: uv run zuban check
 
   build-doc:
     runs-on: ubuntu-latest

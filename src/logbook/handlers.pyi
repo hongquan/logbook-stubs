@@ -165,8 +165,6 @@ class MonitoringFileHandler(FileHandler):
     def emit(self, record: LogRecord) -> None: ...
 
 class StderrHandler(StreamHandler):
-    stream: IO[str]
-
     def __init__(
         self,
         level: int | str = ...,
