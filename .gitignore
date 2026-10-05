@@ -113,6 +113,7 @@ venv.bak/
 .vscode
 .helix
 .crush
+.crushignore
 
 # Spyder project settings
 .spyderproject
@@ -133,3 +134,4 @@ dmypy.json
 .pyre/
 
 examples/*.service
+temp-vendor

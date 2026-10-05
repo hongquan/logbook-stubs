@@ -30,8 +30,7 @@ if TYPE_CHECKING:
     from logbook.base import LogRecord
 
 
-def emit(record: LogRecord) ->  None:
-    ...
+def emit(record: LogRecord) -> None: ...
 ```
 
 ## Included
